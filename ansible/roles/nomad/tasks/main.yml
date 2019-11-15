@@ -22,7 +22,7 @@
     - bin: "{{ nomad_bin }}"
       url: "{{ nomad_precompiled_bin }}"
 
-- name: Ensure consul/vomad dirs
+- name: Ensure nomad dirs
   file:
     path: "{{ item }}"
     state: directory

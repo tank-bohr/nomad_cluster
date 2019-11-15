@@ -9,18 +9,11 @@ advertise {
 
 {% if ansible_nodename is in(groups['nomad_servers']) %}
 server {
-    enabled = true
-    bootstrap_expect = "{{ nomad_bootstrap_expect }}"
-
-    {#
-    server_join {
-        retry_join = {{ nomad_server_ips | tojson }}
-    }
-    #}
+  enabled = true
+  bootstrap_expect = "{{ nomad_bootstrap_expect }}"
 }
 {% else %}
 client {
-    enabled = true
-    {# servers = {{ nomad_server_ips | tojson }} #}
+  enabled = true
 }
 {% endif %}
