@@ -1,0 +1,19 @@
+[Unit]
+Description=Consul agent
+Requires=network-online.target
+After=network-online.target
+ConditionPathExistsGlob={{ consul_config }}
+
+[Service]
+{# Type=notify #}
+User=consul
+Group=consul
+ExecStart={{ consul_bin }} agent -rejoin -config-dir={{ consul_config_path }}
+Restart=on-failure
+ExecReload=/usr/local/bin/consul reload
+KillMode=process
+Restart=on-failure
+SyslogIdentifier=consul
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,26 @@
+log_level = "DEBUG"
+data_dir = "{{ nomad_data_dir }}"
+
+advertise {
+  http = "{{ ansible_host }}"
+  rpc  = "{{ ansible_host }}"
+  serf = "{{ ansible_host }}"
+}
+
+{% if ansible_nodename is in(groups['nomad_servers']) %}
+server {
+    enabled = true
+    bootstrap_expect = "{{ nomad_bootstrap_expect }}"
+
+    {#
+    server_join {
+        retry_join = {{ nomad_server_ips | tojson }}
+    }
+    #}
+}
+{% else %}
+client {
+    enabled = true
+    {# servers = {{ nomad_server_ips | tojson }} #}
+}
+{% endif %}

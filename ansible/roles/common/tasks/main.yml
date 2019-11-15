@@ -1,0 +1,4 @@
+- name: Useful stuff
+  apt:
+    name: ['unzip', 'wget', 'curl', 'git', 'vim', 'make', 'build-essential']
+    update_cache: yes

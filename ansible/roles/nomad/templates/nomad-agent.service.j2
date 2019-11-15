@@ -1,0 +1,15 @@
+[Unit]
+Description=Nomad agent
+Requires=network-online.target
+After=network-online.target
+ConditionPathExistsGlob={{ nomad_config }}
+
+[Service]
+User=root
+Group=root
+Restart=on-failure
+SyslogIdentifier=nomad
+ExecStart={{ nomad_bin }} agent -config {{ nomad_config }}
+
+[Install]
+WantedBy=multi-user.target

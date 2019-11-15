@@ -1,0 +1,24 @@
+---
+bin_path: "/usr/local/bin"
+
+consul_veriosn: 1.6.2
+consul_precompiled_bin: "https://releases.hashicorp.com/consul/{{ consul_veriosn }}/consul_{{ consul_veriosn }}_linux_amd64.zip"
+consul_bin: "{{ bin_path }}/consul"
+consul_data_dir: /var/lib/consul
+consul_config_template: consul-config.hcl.j2
+consul_config_path: /etc/consul.d/
+consul_config: "{{ consul_config_path }}/config.hcl"
+
+nomad_version: 0.10.1
+nomad_precompiled_bin: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_amd64.zip"
+nomad_bin: "{{ bin_path }}/nomad"
+nomad_data_dir: /var/lib/nomad
+nomad_config_template: nomad-config.hcl.j2
+nomad_config_path: /etc/nomad.d
+nomad_config: "{{ nomad_config_path }}/config.hcl"
+
+nomad_bootstrap_expect: "{{ groups['nomad_servers'] | length }}"
+nomad_server_ips: "{{ groups['nomad_servers'] | map('extract', hostvars) | map(attribute='ansible_host') | list }}"
+
+consul_bootstrap_expect: "{{ nomad_bootstrap_expect }}"
+consul_server_ips: "{{ nomad_server_ips }}"

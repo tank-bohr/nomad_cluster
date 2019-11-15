@@ -1,0 +1,67 @@
+---
+- name: Ensure group "consul" exists
+  group:
+    name: consul
+    state: present
+
+- name: Create consul user
+  user:
+    name: consul
+    group: consul
+    create_home: no
+
+- name: Install consul/nomad
+  unarchive:
+    src: "{{ item.url }}"
+    dest: "{{ bin_path }}"
+    remote_src: yes
+    creates: "{{ item.bin }}"
+  with_items:
+    - bin: "{{ consul_bin }}"
+      url: "{{ consul_precompiled_bin }}"
+    - bin: "{{ nomad_bin }}"
+      url: "{{ nomad_precompiled_bin }}"
+
+- name: Ensure consul/vomad dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ nomad_config_path }}"
+    - "{{ nomad_data_dir }}"
+
+- name: Allow consul group to access consul_data_dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    group: consul
+    owner: consul
+  with_items:
+    - "{{ consul_config_path }}"
+    - "{{ consul_data_dir }}"
+
+- name: Consul/Nomad config
+  template:
+    src: "{{ lookup('vars', item + '_config_template') }}"
+    dest: "{{ lookup('vars', item + '_config') }}"
+  with_items:
+    - consul
+    - nomad
+
+- name: Add consul/nomad to sysytemd
+  template:
+    src: "{{ item }}-agent.service.j2"
+    dest: /etc/systemd/system/{{ item }}.service
+  with_items:
+    - consul
+    - nomad
+
+- name: Start consul/nomad
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  with_items:
+    - consul
+    - nomad
