@@ -6,7 +6,7 @@ consul_precompiled_bin: "https://releases.hashicorp.com/consul/{{ consul_veriosn
 consul_bin: "{{ bin_path }}/consul"
 consul_data_dir: /var/lib/consul
 consul_config_template: consul-config.hcl.j2
-consul_config_path: /etc/consul.d/
+consul_config_path: /etc/consul.d
 consul_config: "{{ consul_config_path }}/config.hcl"
 
 nomad_version: 0.10.1
@@ -22,3 +22,7 @@ nomad_server_ips: "{{ groups['nomad_servers'] | map('extract', hostvars) | map(a
 
 consul_bootstrap_expect: "{{ nomad_bootstrap_expect }}"
 consul_server_ips: "{{ nomad_server_ips }}"
+
+current_network_iface: "{{ ansible_interfaces | map('extract', ansible_facts) | selectattr('ipv4.address', 'eq', ansible_host) | first }}"
+
+nomad_network_interface: "{{ current_network_iface.device }}"
