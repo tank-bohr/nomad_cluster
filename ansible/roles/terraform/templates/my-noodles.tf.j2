@@ -1,0 +1,32 @@
+provider "openstack" {
+  auth_url    = "{{ os_auth_url }}"
+  user_name   = "{{ os_username }}"
+  password    = "{{ os_password }}"
+  tenant_name = "{{ os_tenant_name }}"
+}
+
+resource "openstack_compute_keypair_v2" "my-cloud-key" {
+  name       = "my-key"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQChniELdwi1gWgmsDphR9C7M7+539EWkl3x9nMKXm41CFvQOkUVzzsvOQx/5/kuiUKw67x6qFJ9xIODXLuLoada06i7l4uu0xBpZhZMdTCd73fsSSB9LXZNFxN9Fd+kQRYA8vuR0iiL8y6Jr/MwlP2MgjA6X9Zg2T32I/bRZZPiE2Cd5r+OUjQeBG+V+q56VxF6VFrDhHZ6MBxYn3VL80JccSppWJK003+KRqhvtqKf6bNw5MZN5HzzsgWf8pmseab3RcNfwbXYIXjqUcOEFQrmyFPp/rVKTFAc0HB5OrBE6iZsjV8AVfs3QRwKp2VBMASFS0E5Rm+xb4sQ3cFmqO6v"
+}
+
+resource "openstack_compute_instance_v2" "noodles" {
+  name = "noodles-${count.index}"
+  image_name = "{{ os_image_name }}"
+  flavor_name = "{{ os_flavor_name }}"
+
+  count = 3
+
+  {# tags = ["noodles"] #}
+
+  metadata = {
+    index = "${count.index}"
+  }
+
+  key_pair = "${openstack_compute_keypair_v2.my-cloud-key.name}"
+  security_groups = ["default"]
+
+  network {
+    name = "{{ os_network_name }}"
+  }
+}
