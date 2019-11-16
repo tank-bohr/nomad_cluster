@@ -1,4 +1,4 @@
-.PHONY: provision consul-ui nomad-ui
+.PHONY: provision consul-ui nomad-ui observer run-node remsh
 
 SAMPLE_HOST := 192.168.51.104
 OSNAME := $(shell uname -s)
@@ -17,3 +17,12 @@ consul-ui:
 
 nomad-ui:
 	$(OPEN) http://$(SAMPLE_HOST):4646/ui/
+
+observer:
+	erl -name observer@192.168.51.1 -setcookie very-secret-cookie -run observer
+
+run-node:
+	erl -name `uuidgen`@192.168.51.1 -setcookie very-secret-cookie
+
+remsh:
+	erl -name `uuidgen`@192.168.51.1 -setcookie very-secret-cookie -remsh noodles-0@192.168.51.105
