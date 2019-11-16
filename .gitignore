@@ -1,5 +1,6 @@
 tmp/
-jenkins/jenkins_home/
+jenkins/jenkins_home/*
+!jenkins/jenkins_home/.gitkeep
 .vagrant
 ubuntu-bionic-18.04-cloudimg-console.log
 

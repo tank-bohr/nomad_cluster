@@ -26,7 +26,7 @@ run-node:
 	erl -name `uuidgen`@192.168.51.1 -setcookie very-secret-cookie
 
 remsh:
-	erl -name `uuidgen`@192.168.51.1 -setcookie very-secret-cookie -remsh noodles-0@192.168.51.105
+	erl -name `uuidgen`@192.168.51.1 -setcookie very-secret-cookie -remsh noodles-0@192.168.51.104
 
 edit-secrets: $(VAULT_PASSWORD_FILE)
 	ansible-vault edit ansible/group_vars/all/vault

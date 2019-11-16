@@ -1,12 +1,12 @@
-bind_addr = "0.0.0.0"
-data_dir = "{{ consul_data_dir }}"
+bind_addr      = "0.0.0.0"
+data_dir       = "{{ consul_data_dir }}"
 advertise_addr = "{{ ansible_host }}"
-client_addr = "127.0.0.1 {{ ansible_host }}"
-retry_join = {{ consul_server_ips | tojson }}
-ui = true
+client_addr    = "127.0.0.1 {{ ansible_host }}"
+retry_join     = {{ consul_server_ips | tojson }}
+ui             = true
 {% if ansible_nodename is in(groups['nomad_servers']) %}
-server = true
-bootstrap_expect = {{ consul_bootstrap_expect }}
+server         = true
+bootstrap_expe = {{ consul_bootstrap_expect }}
 {% else %}
-server = false
+server         = false
 {% endif %}

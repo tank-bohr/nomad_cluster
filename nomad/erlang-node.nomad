@@ -29,9 +29,13 @@ job "erlang-node" {
       }
 
       service {
-        name = "erlang-node"
-        tags = ["erlang", "distribution"]
+        name = "noodles-${NOMAD_ALLOC_INDEX}"
+        tags = ["erlang", "distribution", "noodles-${NOMAD_ALLOC_INDEX}@${attr.unique.network.ip-address}"]
         port = "port_dist"
+        meta {
+          node_name = "noodles-${NOMAD_ALLOC_INDEX}@${attr.unique.network.ip-address}"
+          port_dist = "${NOMAD_PORT_port_dist}"
+        }
         check {
           type     = "tcp"
           port     = "port_dist"
