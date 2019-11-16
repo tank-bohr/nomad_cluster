@@ -1,0 +1,17 @@
+---
+- name: Retrieve info
+  os_server_facts:
+    auth:
+      auth_url: "{{ os_auth_url }}"
+      username: "{{ os_username }}"
+      password: "{{ os_password }}"
+      tenant_name: "{{ os_tenant_name }}"
+    server: "noodles-*"
+
+- name: Add hosts
+  add_host:
+    name: "{{ item.name }}"
+    ansible_host: "{{ item.public_v4 }}"
+    groups:
+      - servers_com
+  with_items: "{{ openstack_servers }}"

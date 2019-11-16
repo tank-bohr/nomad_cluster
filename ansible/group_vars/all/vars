@@ -1,0 +1,14 @@
+---
+os_auth_url: "{{ vault_os_auth_url }}"
+os_username: "{{ vault_os_username }}"
+os_password: "{{ vault_os_password }}"
+os_tenant_name: "{{ vault_os_tenant_name }}"
+os_identity_version: "{{ vault_os_identity_version }}"
+os_default_domain_name: "{{ vault_os_default_domain_name }}"
+
+# Choose from `openstack image list`
+os_image_name: Ubuntu 18.04-server (64 bit)
+# Choose from `openstack flavor list`
+os_flavor_name: SSD.30
+# Choose from `openstack network list`
+os_network_name: internet_142.91.9.128/27

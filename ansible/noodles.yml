@@ -1,0 +1,10 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  roles:
+    - dynamic_inventory
+
+- hosts: servers_com
+  become: yes
+  roles:
+    - common

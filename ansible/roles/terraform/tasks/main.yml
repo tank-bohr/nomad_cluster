@@ -1,0 +1,4 @@
+---
+- template:
+    src: my-noodles.tf.j2
+    dest: ../terraform/my-noodles.tf

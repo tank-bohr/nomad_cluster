@@ -2,3 +2,9 @@ tmp/
 jenkins/jenkins_home/
 .vagrant
 ubuntu-bionic-18.04-cloudimg-console.log
+
+.vault-password
+terraform/*.tf
+terraform/.terraform
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
