@@ -4,7 +4,7 @@ all:
       vars:
         ansible_user: vagrant
       children:
-        nomad_servers:
+        servers:
           hosts:
             wk000:
               ansible_host: 192.168.51.100
@@ -15,7 +15,7 @@ all:
             wk002:
               ansible_host: 192.168.51.102
               ansible_ssh_private_key_file: .vagrant/machines/wk002/virtualbox/private_key
-        nomad_clients:
+        clients:
           hosts:
             wk003:
               ansible_host: 192.168.51.103

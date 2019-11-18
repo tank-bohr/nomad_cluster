@@ -7,7 +7,7 @@ advertise {
   serf = "{{ ansible_host }}"
 }
 
-{% if inventory_hostname is in(groups['nomad_servers']) %}
+{% if inventory_hostname is in(groups['servers']) %}
 server {
   enabled = true
   bootstrap_expect = "{{ nomad_bootstrap_expect }}"

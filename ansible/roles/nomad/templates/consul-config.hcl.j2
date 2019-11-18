@@ -4,7 +4,7 @@ advertise_addr = "{{ ansible_host }}"
 client_addr    = "127.0.0.1 {{ ansible_host }}"
 retry_join     = {{ consul_server_ips | tojson }}
 ui             = true
-{% if inventory_hostname is in(groups['nomad_servers']) %}
+{% if inventory_hostname is in(groups['servers']) %}
 server         = true
 bootstrap_expect = {{ consul_bootstrap_expect }}
 {% else %}

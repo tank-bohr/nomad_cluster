@@ -44,7 +44,7 @@
     ansible_host: "{{ item.public_v4 }}"
     groups:
       - servers_com
-      - nomad_servers
+      - servers
   with_items: "{{ openstack_servers }}"
   when: item.metadata.index | int < 3
 
@@ -54,6 +54,6 @@
     ansible_host: "{{ item.public_v4 }}"
     groups:
       - servers_com
-      - nomad_clients
+      - clients
   with_items: "{{ openstack_servers }}"
   when: item.metadata.index | int >= 3
