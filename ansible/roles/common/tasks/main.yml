@@ -47,3 +47,8 @@
     name: docker
     state: started
     enabled: yes
+
+- name: iptables
+  shell: iptables-restore
+  args:
+    stdin: "{{ lookup('template', 'rules.v4.j2' ) }}"

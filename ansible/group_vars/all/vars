@@ -18,3 +18,8 @@ os_image_name: Ubuntu 18.04-server (64 bit)
 os_flavor_name: SSD.30
 # Choose from `openstack network list`
 os_network_name: internet_142.91.9.128/27
+
+current_network_iface: "{{ ansible_interfaces | map('extract', ansible_facts) | selectattr('ipv4.address', 'eq', ansible_host) | first }}"
+current_ip_mask: "{{ current_network_iface.ipv4.address }}/{{ current_network_iface.ipv4.netmask }}"
+current_cidr_prefix: "{{ current_ip_mask | ipaddr('prefix') }}"
+current_network_cidr: "{{ current_network_iface.ipv4.network }}/{{ current_cidr_prefix }}"

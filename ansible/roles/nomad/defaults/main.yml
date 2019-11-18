@@ -23,6 +23,4 @@ nomad_server_ips: "{{ groups['nomad_servers'] | map('extract', hostvars) | map(a
 consul_bootstrap_expect: "{{ nomad_bootstrap_expect }}"
 consul_server_ips: "{{ nomad_server_ips }}"
 
-current_network_iface: "{{ ansible_interfaces | map('extract', ansible_facts) | selectattr('ipv4.address', 'eq', ansible_host) | first }}"
-
 nomad_network_interface: "{{ current_network_iface.device }}"
