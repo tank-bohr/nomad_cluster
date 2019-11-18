@@ -7,8 +7,7 @@ Vagrant.configure("2") do |config|
 
   workers_count = 7
 
-  workers_count.times do |i|
-    num = i + 1
+  workers_count.times do |num|
     worker_name = sprintf("wk%03d", num)
     worker_addr = "192.168.51.#{ 100 + num }"
     config.vm.define worker_name do |worker|

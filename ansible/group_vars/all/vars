@@ -6,6 +6,12 @@ os_tenant_name: "{{ vault_os_tenant_name }}"
 os_identity_version: "{{ vault_os_identity_version }}"
 os_default_domain_name: "{{ vault_os_default_domain_name }}"
 
+servers_count: 7
+
+servers_com_dns_email: "{{ vault_servers_com_dns_email }}"
+servers_com_dns_token: "{{ vault_servers_com_dns_token }}"
+servers_com_dns_domain_id: 51349
+
 # Choose from `openstack image list`
 os_image_name: Ubuntu 18.04-server (64 bit)
 # Choose from `openstack flavor list`

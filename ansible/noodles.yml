@@ -8,3 +8,4 @@
   become: yes
   roles:
     - common
+    - nomad

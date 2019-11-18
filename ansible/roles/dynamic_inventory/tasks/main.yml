@@ -6,7 +6,37 @@
       username: "{{ os_username }}"
       password: "{{ os_password }}"
       tenant_name: "{{ os_tenant_name }}"
-    server: "noodles-*"
+    server: "wk-*"
+
+- name: Check DNS
+  uri:
+    url: https://portal.servers.com/rest/dns/domains/{{ servers_com_dns_domain_id }}/records
+    return_content: yes
+    headers:
+      accept: application/json
+      x-user-email: "{{ servers_com_dns_email }}"
+      x-user-token: "{{ servers_com_dns_token }}"
+  register: dns_records
+
+- set_fact:
+    a_records: "{{ dns_records.json.data | selectattr('type', 'eq', 'A') | list }}"
+
+- name: Set DNS records
+  uri:
+    url: https://portal.servers.com/rest/dns/domains/{{ servers_com_dns_domain_id }}/records
+    status_code: 201
+    method: POST
+    body_format: json
+    body:
+      name: "{{ 'wk%03d.my-noodles.online' | format(item.metadata.index | int) }}"
+      type: A
+      data: "{{ item.public_v4 }}"
+    headers:
+      accept: application/json
+      x-user-email: "{{ servers_com_dns_email }}"
+      x-user-token: "{{ servers_com_dns_token }}"
+  with_items: "{{ openstack_servers }}"
+  when: a_records | selectattr('data', 'eq', item.public_v4) | list | length == 0
 
 - name: Add hosts
   add_host:

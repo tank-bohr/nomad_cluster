@@ -37,8 +37,8 @@ tf-init:
 tf-apply: terraform/my-noodles.tf
 	make -C terraform apply
 
-terraform/my-noodles.tf: ansible/roles/terraform/templates/my-noodles.tf.j2
+terraform/my-noodles.tf: ansible/roles/terraform/templates/my-noodles.tf.j2 ansible/group_vars/all/vars
 	ansible-playbook -vv ansible/generate-terraform.yml
 
 noodles:
-	ansible-playbook -vv ansible/noodles.yml
+	ansible-playbook ansible/noodles.yml

@@ -11,20 +11,19 @@ resource "openstack_compute_keypair_v2" "my-cloud-key" {
 }
 
 resource "openstack_compute_instance_v2" "noodles" {
-  name = "noodles-${count.index}"
+  name = "wk-${count.index}"
   image_name = "{{ os_image_name }}"
   flavor_name = "{{ os_flavor_name }}"
 
-  count = 3
-
-  {# tags = ["noodles"] #}
+  count = {{ servers_count }}
 
   metadata = {
     index = "${count.index}"
   }
 
   key_pair = "${openstack_compute_keypair_v2.my-cloud-key.name}"
-  security_groups = ["default"]
+  {# tags = ["noodles"] #}
+  {# security_groups = ["default"] #}
 
   network {
     name = "{{ os_network_name }}"
