@@ -1,6 +1,7 @@
 .PHONY: provision consul-ui nomad-ui observer run-node remsh edit-secrets
 
-SAMPLE_HOST := 192.168.51.104
+# SAMPLE_HOST := 192.168.51.104
+SAMPLE_HOST := wk004.my-noodles.online
 
 OSNAME := $(shell uname -s)
 ifeq ($(OSNAME), Darwin)

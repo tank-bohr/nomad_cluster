@@ -38,10 +38,22 @@
   with_items: "{{ openstack_servers }}"
   when: a_records | selectattr('data', 'eq', item.public_v4) | list | length == 0
 
-- name: Add hosts
+- name: Add servers
   add_host:
     name: "{{ item.name }}"
     ansible_host: "{{ item.public_v4 }}"
     groups:
       - servers_com
+      - nomad_servers
   with_items: "{{ openstack_servers }}"
+  when: item.metadata.index | int < 3
+
+- name: Add clients
+  add_host:
+    name: "{{ item.name }}"
+    ansible_host: "{{ item.public_v4 }}"
+    groups:
+      - servers_com
+      - nomad_clients
+  with_items: "{{ openstack_servers }}"
+  when: item.metadata.index | int >= 3

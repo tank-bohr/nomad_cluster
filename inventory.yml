@@ -1,34 +1,5 @@
 all:
   children:
-    vagrant:
-      vars:
-        ansible_user: vagrant
-      children:
-        nomad_servers:
-          hosts:
-            wk000:
-              ansible_host: 192.168.51.100
-              ansible_ssh_private_key_file: .vagrant/machines/wk000/virtualbox/private_key
-            wk001:
-              ansible_host: 192.168.51.101
-              ansible_ssh_private_key_file: .vagrant/machines/wk001/virtualbox/private_key
-            wk002:
-              ansible_host: 192.168.51.102
-              ansible_ssh_private_key_file: .vagrant/machines/wk002/virtualbox/private_key
-        nomad_clients:
-          hosts:
-            wk003:
-              ansible_host: 192.168.51.103
-              ansible_ssh_private_key_file: .vagrant/machines/wk003/virtualbox/private_key
-            wk004:
-              ansible_host: 192.168.51.104
-              ansible_ssh_private_key_file: .vagrant/machines/wk004/virtualbox/private_key
-            wk005:
-              ansible_host: 192.168.51.105
-              ansible_ssh_private_key_file: .vagrant/machines/wk005/virtualbox/private_key
-            wk006:
-              ansible_host: 192.168.51.106
-              ansible_ssh_private_key_file: .vagrant/machines/wk006/virtualbox/private_key
     servers_com:
       vars:
         ansible_user: cloud-user

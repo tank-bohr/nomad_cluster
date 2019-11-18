@@ -17,9 +17,10 @@ client {
   enabled = true
   network_interface = "{{ nomad_network_interface }}"
 
+  {% if ansible_nodename is in(groups['vagrant'] | default([])) %}
   host_volume "jenkins_home" {
     path      = "/vagrant/jenkins/jenkins_home"
     read_only = false
-  }
+  {% endif %}
 }
 {% endif %}
