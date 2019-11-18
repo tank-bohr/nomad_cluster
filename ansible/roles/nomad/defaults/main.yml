@@ -17,8 +17,8 @@ nomad_config_template: nomad-config.hcl.j2
 nomad_config_path: /etc/nomad.d
 nomad_config: "{{ nomad_config_path }}/config.hcl"
 
-nomad_bootstrap_expect: "{{ groups['nomad_servers'] | length }}"
-nomad_server_ips: "{{ groups['nomad_servers'] | map('extract', hostvars) | map(attribute='ansible_host') | list }}"
+nomad_bootstrap_expect: "{{ groups['servers'] | length }}"
+nomad_server_ips: "{{ groups['servers'] | map('extract', hostvars) | map(attribute='ansible_host') | list }}"
 
 consul_bootstrap_expect: "{{ nomad_bootstrap_expect }}"
 consul_server_ips: "{{ nomad_server_ips }}"
