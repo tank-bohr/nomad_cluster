@@ -1,6 +1,6 @@
 - name: Useful stuff
   apt:
-    name: ['unzip', 'wget', 'curl', 'git', 'vim', 'make', 'build-essential', 'openjdk-11-jre']
+    name: ['unzip', 'wget', 'curl', 'git', 'vim', 'make', 'build-essential', 'openjdk-11-jre', 'jq']
     update_cache: yes
 
 - name: Install http-echo

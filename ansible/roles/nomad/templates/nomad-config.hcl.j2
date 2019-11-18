@@ -17,10 +17,11 @@ client {
   enabled = true
   network_interface = "{{ nomad_network_interface }}"
 
-  {% if inventory_hostname is in(groups['vagrant'] | default([])) %}
-  host_volume "jenkins_home" {
-    path      = "/vagrant/jenkins/jenkins_home"
+  {% for service in nomad_services %}
+  host_volume "{{ service }}_data" {
+    path      = "{{ nomad_services_dir }}/{{ service }}"
     read_only = false
-  {% endif %}
+  }
+  {% endfor %}
 }
 {% endif %}

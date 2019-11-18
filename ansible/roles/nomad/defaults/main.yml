@@ -24,3 +24,6 @@ consul_bootstrap_expect: "{{ nomad_bootstrap_expect }}"
 consul_server_ips: "{{ nomad_server_ips }}"
 
 nomad_network_interface: "{{ current_network_iface.device }}"
+
+nomad_services_dir: /data/services
+nomad_services: ['jenkins']

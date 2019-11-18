@@ -12,7 +12,7 @@ job "jenkins" {
         image = "jenkins/jenkins:lts"
         network_mode = "host"
         volumes = [
-          "/vagrant/jenkins/jenkins_home:/var/jenkins_home"
+          "/data/services/jenkins:/var/jenkins_home"
         ]
       }
       env {

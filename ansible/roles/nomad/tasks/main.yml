@@ -30,6 +30,14 @@
     - "{{ nomad_config_path }}"
     - "{{ nomad_data_dir }}"
 
+- name: Ensure nomad services dirs
+  file:
+    path: "{{ nomad_services_dir }}/{{ item }}"
+    state: directory
+    recurse: yes
+    mode: '0777'
+  with_items: "{{ nomad_services }}"
+
 - name: Allow consul group to access consul_data_dir
   file:
     path: "{{ item }}"

@@ -5,15 +5,15 @@ job "jenkins" {
   group "example" {
     count = "1"
 
-    volume "jenkins_home" {
+    volume "data" {
       type      = "host"
       read_only = false
-      source    = "jenkins_home"
+      source    = "jenkins_data"
     }
 
     task "jenkins-server" {
       driver = "java"
-      user   = "vagrant"
+      user   = "cloud-user"
 
       config {
         args        = ["--httpPort=${NOMAD_HOST_PORT_http}"]
@@ -27,7 +27,7 @@ job "jenkins" {
       }
 
       volume_mount {
-        volume      = "jenkins_home"
+        volume      = "data"
         destination = "/var/jenkins_home"
         read_only   = false
       }
