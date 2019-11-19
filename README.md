@@ -12,6 +12,6 @@
 
     - `make tf-apply`
 
-    - `make` noodles`
+    - `make noodles`
 
 ```
