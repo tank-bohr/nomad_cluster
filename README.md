@@ -13,5 +13,3 @@
     - `make tf-apply`
 
     - `make noodles`
-
-```
