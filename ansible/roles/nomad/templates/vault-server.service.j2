@@ -1,0 +1,15 @@
+[Unit]
+Description=Hashicorp Vault
+Requires=network-online.target
+After=network-online.target
+ConditionPathExistsGlob={{ vault_config }}
+
+[Service]
+User=root
+Group=root
+Restart=on-failure
+SyslogIdentifier=vault
+ExecStart={{ vault_bin }} server -config {{ vault_config }}
+
+[Install]
+WantedBy=multi-user.target

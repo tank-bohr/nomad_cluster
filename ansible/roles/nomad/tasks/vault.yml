@@ -1,0 +1,46 @@
+---
+- name: retrieve vault status
+  uri:
+    url: "http://127.0.0.1:8200/v1/sys/seal-status"
+    return_content: yes
+    headers:
+      accept: application/json
+  register: vault_status
+
+- set_fact:
+    run_init: "{{ (not vault_status.json.initialized) and (inventory_hostname == groups['servers'][0]) }}"
+
+- name: vault init
+  uri:
+    url: "http://127.0.0.1:8200/v1/sys/init"
+    method: "PUT"
+    return_content: yes
+    headers:
+      accept: application/json
+    body_format: json
+    body:
+      secret_shares: "{{ vault_secret_shares }}"
+      secret_threshold: "{{ vault_secret_threshold }}"
+  when: run_init
+  register: vault_init
+
+- debug:
+    msg: Update this data in Ansible vault and restart this task
+  when: run_init
+
+- debug:
+    var: vault_init.json
+  when: run_init
+
+- name: Unseal servers
+  uri:
+    url: "http://127.0.0.1:8200/v1/sys/unseal"
+    method: "PUT"
+    return_content: yes
+    headers:
+      accept: application/json
+    body_format: json
+    body:
+      key: "{{ item }}"
+  with_items: "{{ vault_keys | slice(vault_secret_threshold) | list }}"
+  when: not vault_status.json.sealed

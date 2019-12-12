@@ -17,6 +17,14 @@ nomad_config_template: nomad-config.hcl.j2
 nomad_config_path: /etc/nomad.d
 nomad_config: "{{ nomad_config_path }}/config.hcl"
 
+vault_version: 1.3.0
+vault_precompiled_bin: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"
+vault_bin: "{{ bin_path }}/vault"
+vault_data_dir: /var/lib/vault
+vault_config_template: vault-config.hcl.j2
+vault_config_path: /etc/vault.d
+vault_config: "{{ vault_config_path }}/config.hcl"
+
 nomad_bootstrap_expect: "{{ groups['servers'] | length }}"
 nomad_server_ips: "{{ groups['servers'] | map('extract', hostvars) | map(attribute='ansible_host') | list }}"
 
@@ -27,3 +35,6 @@ nomad_network_interface: "{{ current_network_iface.device }}"
 
 nomad_services_dir: /data/services
 nomad_services: ['jenkins']
+
+vault_secret_shares: 5
+vault_secret_threshold: 3

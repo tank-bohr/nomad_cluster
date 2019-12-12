@@ -23,3 +23,6 @@ current_network_iface: "{{ ansible_interfaces | map('extract', ansible_facts) | 
 current_ip_mask: "{{ current_network_iface.ipv4.address }}/{{ current_network_iface.ipv4.netmask }}"
 current_cidr_prefix: "{{ current_ip_mask | ipaddr('prefix') }}"
 current_network_cidr: "{{ current_network_iface.ipv4.network }}/{{ current_cidr_prefix }}"
+
+vault_keys: "{{ vault_vault_keys }}"
+vault_root_token: "{{ vault_vault_root_token }}"

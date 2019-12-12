@@ -10,7 +10,7 @@
     group: consul
     create_home: no
 
-- name: Install consul/nomad
+- name: Install consul/nomad/vault
   unarchive:
     src: "{{ item.url }}"
     dest: "{{ bin_path }}"
@@ -21,14 +21,18 @@
       url: "{{ consul_precompiled_bin }}"
     - bin: "{{ nomad_bin }}"
       url: "{{ nomad_precompiled_bin }}"
+    - bin: "{{ vault_bin }}"
+      url: "{{ vault_precompiled_bin }}"
 
-- name: Ensure nomad dirs
+- name: Ensure nomad/vault dirs
   file:
     path: "{{ item }}"
     state: directory
   with_items:
     - "{{ nomad_config_path }}"
     - "{{ nomad_data_dir }}"
+    - "{{ vault_config_path }}"
+    - "{{ vault_data_dir }}"
 
 - name: Ensure nomad services dirs
   file:
@@ -48,13 +52,14 @@
     - "{{ consul_config_path }}"
     - "{{ consul_data_dir }}"
 
-- name: Consul/Nomad config
+- name: Consul/Nomad/Vault config
   template:
     src: "{{ lookup('vars', item + '_config_template') }}"
     dest: "{{ lookup('vars', item + '_config') }}"
   with_items:
     - consul
     - nomad
+    - vault
 
 - name: Add consul/nomad to sysytemd
   template:
@@ -64,7 +69,12 @@
     - consul
     - nomad
 
-- name: Start consul/nomad
+- name: Add vault to sysytemd
+  template:
+    src: vault-server.service.j2
+    dest: /etc/systemd/system/vault.service
+
+- name: Start consul/nomad/vault
   systemd:
     name: "{{ item }}"
     state: restarted
@@ -73,3 +83,6 @@
   with_items:
     - consul
     - nomad
+    - vault
+
+- include_tasks: vault.yml
