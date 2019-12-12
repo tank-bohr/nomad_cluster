@@ -1,12 +1,13 @@
 ---
 - name: Retrieve info
-  os_server_facts:
+  os_server_info:
     auth:
       auth_url: "{{ os_auth_url }}"
       username: "{{ os_username }}"
       password: "{{ os_password }}"
       tenant_name: "{{ os_tenant_name }}"
     server: "wk-*"
+  register: os_server_info
 
 - name: Check DNS
   uri:
@@ -35,7 +36,7 @@
       accept: application/json
       x-user-email: "{{ servers_com_dns_email }}"
       x-user-token: "{{ servers_com_dns_token }}"
-  with_items: "{{ openstack_servers }}"
+  with_items: "{{ os_server_info.openstack_servers }}"
   when: a_records | selectattr('data', 'eq', item.public_v4) | list | length == 0
 
 - name: Add servers
@@ -45,7 +46,7 @@
     groups:
       - servers_com
       - servers
-  with_items: "{{ openstack_servers }}"
+  with_items: "{{ os_server_info.openstack_servers }}"
   when: item.metadata.index | int < 3
 
 - name: Add clients
@@ -55,5 +56,5 @@
     groups:
       - servers_com
       - clients
-  with_items: "{{ openstack_servers }}"
+  with_items: "{{ os_server_info.openstack_servers }}"
   when: item.metadata.index | int >= 3

@@ -3,6 +3,16 @@
     name: ['unzip', 'wget', 'curl', 'git', 'vim', 'make', 'build-essential', 'openjdk-11-jre', 'jq']
     update_cache: yes
 
+- name: Acsess
+  authorized_key:
+    user: "{{ ansible_user }}"
+    state: present
+    key: "https://github.com/{{ item }}.keys"
+  with_items:
+    - matyasmarkovics
+    - dangra
+    - jpuigm
+
 - name: Install http-echo
   unarchive:
     src: https://github.com/hashicorp/http-echo/releases/download/v0.2.3/http-echo_0.2.3_linux_amd64.zip

@@ -25,4 +25,10 @@
 # Nomad UI
 -A INPUT -p tcp --dport 4646  -j ACCEPT
 
+# Allow nomad dynacic ports for demo. See https://www.nomadproject.io/docs/job-specification/network.html#dynamic-ports
+-A INPUT -p tcp --match multiport --dports 20000:32000 -j ACCEPT
+
+# Allow EPMD port for demo
+-A INPUT -p tcp --dport 4369  -j ACCEPT
+
 COMMIT
