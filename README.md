@@ -10,6 +10,6 @@
 
 ### Servers.com cloud
 
-    - `make tf-apply`
+* `make tf-apply`
 
-    - `make noodles`
+* `make noodles`
