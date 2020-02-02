@@ -85,4 +85,12 @@
     - nomad
     - vault
 
-- include_tasks: vault.yml
+- name: Start consul/nomad/vault
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    daemon_reload: yes
+    enabled: yes
+  with_items:
+    - vault
+# - include_tasks: vault.yml

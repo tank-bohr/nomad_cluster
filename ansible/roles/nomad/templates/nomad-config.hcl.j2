@@ -25,13 +25,3 @@ client {
   {% endfor %}
 }
 {% endif %}
-
-
-vault {
-  enabled = true
-  address = "http://127.0.0.1:8200"
-{% if inventory_hostname is in(groups['servers']) %}
-  tokem = "{{ vault_root_token }}"
-{% endif %}
-}
-
